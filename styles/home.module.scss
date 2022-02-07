@@ -1,0 +1,72 @@
+.card {
+  @apply flex bg-purple-1000 p-1 relative rounded-2xl rounded-br-lg rounded-tr-lg;
+  // display: flex;
+  // background-color: #4c0094;
+  // padding: 5px;
+  // position: relative;
+  // border-radius: 1rem;
+  // border-top-right-radius: 0.5rem;
+  // border-bottom-right-radius: 0.5rem;
+
+  .picture {
+    @apply rounded-2xl mr-1 bg-purple-1100;
+    // border-radius: 16px;
+    // margin-right: 5px;
+    width: 58px;
+    height: 58px;
+    // background-color: #630db5;
+  }
+
+  .name,
+  .points {
+    @apply mb-1 font-bold text-white;
+    font-size: 24px;
+  }
+
+  .points {
+    @apply m-0 absolute bottom-1 flex
+      right-1 h-7 w-32 rounded-md text-center justify-center items-center;
+    background-image: linear-gradient(90deg, #8cc63e, #3bb44b);
+    font-size: 22px;
+    // margin: 0px;
+    // position: absolute;
+    // bottom: 5px;
+    // right: 5px;
+    // height: 40%;
+    // min-width: 130px;
+    // border-radius: 8px;
+    // text-align: center;
+    // color: #fff;
+    // font-weight: 700;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+  }
+}
+
+.options {
+  @apply mt-2 flex justify-center;
+
+  & > div {
+    @apply p-1 flex-1 basis-0 flex-col justify-center items-center;
+
+    p {
+      font-size: 13px;
+    }
+  }
+}
+
+.banners-block {
+  h5 {
+    @apply font-bold;
+    font-size: 22px;
+  }
+
+  .banner {
+    @apply rounded-lg flex justify-start items-center p-1 h-16 mb-1;
+    font-size: 13px;
+    p {
+      font-size: 12px;
+    }
+  }
+}
