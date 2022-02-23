@@ -1,7 +1,9 @@
+import Head from "next/head"
 import Link from "next/link"
 import React from "react"
 import { Market } from "../../interfaces/markets/market.interface"
 import { firestore } from "../../lib/firebase"
+import { defaultDesc, defaultImage } from "../../lib/helpers"
 
 
 function useMarkets() {
@@ -41,10 +43,34 @@ export default function StoresShowcase() {
     )
   })
 
-  return <div>
-    <h2>Stores showcase</h2>
-    <ul>
-      {marketItems}
-    </ul>
-  </div>
+  return (
+    <>
+      <Head>
+        <title>Nesquik - Stores</title>
+        <meta name='title' content='>Nesquik - Stores' />
+        <meta
+          name='description'
+          content={defaultDesc}
+        />
+
+        <meta property='og:type' content='website' />
+        <meta property='og:url' content='https://quikpago.com/' />
+        <meta property='og:title' content='>Nesquik - Stores' />
+        <meta property='og:description' content={defaultDesc} />
+        <meta property='og:image' content={defaultImage} />
+
+        <meta property='twitter:card' content='summary_large_image' />
+        <meta property='twitter:url' content='https://quikpago.com/' />
+        <meta property='twitter:title' content='>Nesquik - Stores' />
+        <meta property='twitter:description' content={defaultDesc} />
+        <meta property='twitter:image' content={defaultImage} />
+      </Head>
+      <div>
+        <h2>Stores showcase</h2>
+        <ul>
+          {marketItems}
+        </ul>
+      </div>
+    </>
+  )
 }
