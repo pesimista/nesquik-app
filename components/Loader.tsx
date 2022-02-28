@@ -1,5 +1,5 @@
-import { LoadingOutlined } from "@ant-design/icons";
-import React, { ReactNode } from "react";
+import { LoadingOutlined } from '@ant-design/icons'
+import React, { ReactNode } from 'react'
 
 interface LoaderProps {
   loading: boolean
@@ -11,7 +11,16 @@ export default function Loader({ loading, children = [] }: LoaderProps) {
     return <React.Fragment>{children}</React.Fragment>
   }
 
-  return <div style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '4rem' }}>
-    <LoadingOutlined style={{ fontSize: 48 }} spin />
-  </div>
+  return (
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '4rem',
+      }}
+    >
+      <LoadingOutlined style={{ fontSize: 48 }} spin />
+    </div>
+  )
 }

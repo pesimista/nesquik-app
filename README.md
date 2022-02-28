@@ -2,7 +2,7 @@
 
 This is a project based of the web app [QUIKpago](www.quikpago.com). The main goal is to try to mimic it all using [Nextjs](https://nextjs.org/) as the main framework for the frontend and firebase as the database provider.
 
-this serves the porpuse of being a practice environment, and portafolios project for future reference
+this serves the purpose of being a practice environment, and portfolios project for future reference
 
 ## Running it locally
 
@@ -63,7 +63,7 @@ project/
 - [ ] Add the firebase authentication (current)
 - [ ] Add the home screen
 - [ ] Add the store showcase page
-- [ ] Add the product showcase page (this time as a separated component, I'm lookong at you GOOku)
+- [ ] Add the product showcase page (this time as a separated component, I'm looking at you GOOku)
 - [ ] Rethink ~~my career choice~~ how to show sub products
 - [ ] Add the cart and it's functionality across screens
 - [ ] Add the recharge/reload page

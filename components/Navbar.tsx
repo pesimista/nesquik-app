@@ -9,33 +9,36 @@ export default function Navbar({
   onMenuClick,
   visibility = false,
   showBack = false,
-  showCart = true
+  showCart = true,
 }) {
   const router = useRouter()
-  const icon = visibility ? <CloseOutlined /> : <MenuOutlined />
+  const icon = visibility ? (
+    <CloseOutlined style={{ fontSize: '24px' }} className='text-green-1000' />
+  ) : (
+    <MenuOutlined style={{ fontSize: '24px' }} className='text-green-1000' />
+  )
   const redirectTo = showMenu ? '/home' : '/'
 
   return (
-    <nav style={{ display: 'flex', position: 'relative', zIndex: '10000', justifyContent: 'space-between', height: '64px', backgroundColor: '#2b2b2b', padding: '0 1.25rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {
-          showMenu && !showBack ?
-            <Button onClick={onMenuClick}>
-              {icon}
-            </Button>
-            : null
-        }
+    <nav
+      className='flex relative justify-between h-16 bg-gray-1000 px-5'
+      style={{ zIndex: '10000' }}
+    >
+      <div className='flex items-center justify-center'>
+        {showMenu && !showBack ? (
+          <button onClick={onMenuClick} className='p-0 font-bold w-9'>
+            {icon}
+          </button>
+        ) : null}
 
-
-        {showBack ?
+        {showBack ? (
           <Button onClick={router.back}>
             <BackwardFilled />
           </Button>
-          : null
-        }
+        ) : null}
       </div>
       <Link href={redirectTo} passHref>
-        <div style={{ padding: '13px 0' }} >
+        <div style={{ padding: '15px 0' }}>
           <Image
             src='/images/quik-logo.svg'
             width={137}
@@ -44,12 +47,14 @@ export default function Navbar({
           />
         </div>
       </Link>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {
-          showCart
-            ? <Image src='/images/cart.svg' alt='cart' width={40} height={40} />
-            : <Link href='/login' passHref><Button shape='round'>Login</Button></Link>
-        }
+      <div className='flex items-center'>
+        {showCart ? (
+          <Image src='/images/cart.svg' alt='cart' width={40} height={40} />
+        ) : (
+          <Link href='/login' passHref>
+            <Button shape='round'>Login</Button>
+          </Link>
+        )}
       </div>
     </nav>
   )

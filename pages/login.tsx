@@ -16,7 +16,7 @@ async function updateUser(user) {
   }
 }
 
-export default function LoginPage({ }) {
+export default function LoginPage({}) {
   const { user } = useUser()
   const router = useRouter()
 
@@ -28,49 +28,65 @@ export default function LoginPage({ }) {
     updateUser(value).then(() => router.push('/home'))
   }
 
-  return (<>
-    <Head>
-      <title>Login</title>
-    </Head>
-    <div style={{ maxWidth: '440px', margin: '10px auto', border: '1px solid gray', padding: '5rem 3rem 3rem' }}>
-      <Form
-        name="normal_login"
-        className="login-form"
-        onFinish={handleSubmit}
+  return (
+    <>
+      <Head>
+        <title>Login</title>
+      </Head>
+      <div
+        style={{
+          maxWidth: '440px',
+          margin: '10px auto',
+          border: '1px solid gray',
+          padding: '5rem 3rem 3rem',
+        }}
       >
-        <Form.Item
-          name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
+        <Form
+          name='normal_login'
+          className='login-form'
+          onFinish={handleSubmit}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="email" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: 'Please input your Password!' }]}
-        >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
+          <Form.Item
+            name='email'
+            rules={[{ required: true, message: 'Please input your email!' }]}
+          >
+            <Input
+              prefix={<UserOutlined className='site-form-item-icon' />}
+              placeholder='email'
+            />
+          </Form.Item>
+          <Form.Item
+            name='password'
+            rules={[{ required: true, message: 'Please input your Password!' }]}
+          >
+            <Input
+              prefix={<LockOutlined className='site-form-item-icon' />}
+              type='password'
+              placeholder='Password'
+            />
+          </Form.Item>
+          <Form.Item>
+            <Form.Item name='remember' valuePropName='checked' noStyle>
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <a className='login-form-forgot' href=''>
+              Forgot password
+            </a>
           </Form.Item>
 
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-          Or <a href="">register now!</a>
-        </Form.Item>
-      </Form>
-    </div>
-  </>)
+          <Form.Item>
+            <Button
+              type='primary'
+              htmlType='submit'
+              className='login-form-button'
+            >
+              Log in
+            </Button>
+            Or <a href=''>register now!</a>
+          </Form.Item>
+        </Form>
+      </div>
+    </>
+  )
 }
