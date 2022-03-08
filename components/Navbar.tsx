@@ -1,4 +1,4 @@
-import { MenuOutlined, CloseOutlined, BackwardFilled } from '@ant-design/icons'
+import { MenuOutlined, CloseOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,50 +11,60 @@ export default function Navbar({
   showBack = false,
   showCart = true,
 }) {
+  const iconClassname = {
+    className: 'text-green-1000',
+    style: { fontSize: '24px' },
+  }
+
   const router = useRouter()
   const icon = visibility ? (
-    <CloseOutlined style={{ fontSize: '24px' }} className='text-green-1000' />
+    <CloseOutlined {...iconClassname} />
   ) : (
-    <MenuOutlined style={{ fontSize: '24px' }} className='text-green-1000' />
+    <MenuOutlined {...iconClassname} />
   )
   const redirectTo = showMenu ? '/home' : '/'
 
   return (
     <nav
-      className='flex relative justify-between h-16 bg-gray-1000 px-5'
+      className='relative flex justify-between items-center h-16 bg-gray-1000 p-5'
       style={{ zIndex: '10000' }}
     >
-      <div className='flex items-center justify-center'>
-        {showMenu && !showBack ? (
-          <button onClick={onMenuClick} className='p-0 font-bold w-9'>
-            {icon}
-          </button>
-        ) : null}
+      <div className='flex justify-between items-center w-full'>
+        <div className='flex items-center justify-center w-9 h-9'>
+          {showMenu && !showBack ? (
+            <button onClick={onMenuClick} className='p-0 font-bold w-9'>
+              {icon}
+            </button>
+          ) : null}
 
-        {showBack ? (
-          <Button onClick={router.back}>
-            <BackwardFilled />
-          </Button>
-        ) : null}
-      </div>
-      <Link href={redirectTo} passHref>
-        <div style={{ padding: '15px 0' }}>
-          <Image
-            src='/images/quik-logo.svg'
-            width={137}
-            height={36}
-            alt='quik-logo'
-          />
+          {showBack ? (
+            <button
+              onClick={router.back}
+              className='p-0 font-bold w-9 h-8 relative'
+            >
+              <Image src='/images/chevron-back.svg' alt='back' layout='fill' />
+            </button>
+          ) : null}
         </div>
-      </Link>
-      <div className='flex items-center'>
-        {showCart ? (
-          <Image src='/images/cart.svg' alt='cart' width={40} height={40} />
-        ) : (
-          <Link href='/login' passHref>
-            <Button shape='round'>Login</Button>
-          </Link>
-        )}
+        <Link href={redirectTo} passHref>
+          <div className='ml-1 inline-block' style={{ height: '35px' }}>
+            <Image
+              src='/images/quik-logo.svg'
+              width={137}
+              height={35}
+              alt='quik-logo'
+            />
+          </div>
+        </Link>
+        <div className='flex items-center'>
+          {showCart ? (
+            <Image src='/images/cart.svg' alt='cart' width={40} height={40} />
+          ) : (
+            <Link href='/login' passHref>
+              <Button shape='round'>Login</Button>
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   )

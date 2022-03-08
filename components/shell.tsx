@@ -7,7 +7,7 @@ import Navbar from './Navbar'
 
 const URLS = ['/', '/home', '/login']
 
-function isHome(url, from?): boolean {
+function isHome(url): boolean {
   if (URLS.includes(url)) {
     return true
   } else {
@@ -20,23 +20,24 @@ export default function Shell({ children }) {
   const router = useRouter()
   const [drawerVisibility, setVisibility] = React.useState(false)
   const [showBackButton, setIsHome] = React.useState(() =>
-    isHome(router.pathname, 'setter')
+    isHome(router.pathname)
   )
   const toggleDrawer = () => setVisibility(!drawerVisibility)
 
   React.useEffect(() => {
-    router.events.on('routeChangeStart', (url) => {
-      setIsHome(isHome(url, 'event'))
+    const handler = (url) => {
+      setIsHome(isHome(url))
 
-      if (drawerVisibility) {
-        setVisibility(false)
-      }
-    })
+      setVisibility(false)
+    }
+
+    router.events.on('routeChangeStart', handler)
 
     return () => {
-      router.events.off('routeChangeStart', () => {})
+      router.events.off('routeChangeStart', handler)
     }
-  }, [drawerVisibility, router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function logoff() {
     logout()

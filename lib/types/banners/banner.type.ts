@@ -1,8 +1,8 @@
-export interface HomeBanners {
+export type HomeBanners = {
   [key: string]: Banner[]
 }
 
-export interface Banner {
+export type Banner = {
   bannerID: string
   image: string
   largeImage?: string
@@ -29,22 +29,10 @@ export interface Banner {
   ageRange?: string[]
   backgroundColor?: string
   exclusiveFor: 'mobile' | 'desktop' | 'both'
-  gallery?: any[]
+  gallery?: []
 }
 
-// export interface Banner {
-//   bannerID?: string;
-//   isHidden?: boolean;
-//   caption?: string;
-//   url: string;
-//   image: string;
-//   queryParams: {
-//     market: string;
-//     dialog: string;
-//   };
-// }
-
-interface Coordinates {
+type Coordinates = {
   lat: number
   lng: number
   accuracy?: number

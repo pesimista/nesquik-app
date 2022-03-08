@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 export const initialValue = { user: null, doc: null }
 export const UserContext = React.createContext(null)

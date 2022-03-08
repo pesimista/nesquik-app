@@ -3,9 +3,10 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { UserContext } from '../lib/context'
 import { auth, firestore } from '../lib/firebase'
 import Loader from './Loader'
+import { Auth } from 'firebase/auth'
 
 export function UserProvider({ children }) {
-  const [user, loadingUser] = useAuthState(auth as any)
+  const [user, loadingUser] = useAuthState(auth as unknown as Auth)
   const [userDoc, setDoc] = React.useState(null)
 
   React.useEffect(() => {
