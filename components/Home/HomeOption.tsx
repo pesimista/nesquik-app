@@ -4,9 +4,11 @@ import Image from 'next/image'
 export default function HomeOption({ title, src, alt, href }) {
   return (
     <Link href={href} passHref>
-      <div>
-        <Image src={src} alt={alt} width={120} height={120} />
-        <p className='font-bold'>{title}</p>
+      <div className='p-1 flex-1 basis-0 block'>
+        <Image src={src} alt={alt} layout='responsive' width={1} height={1} />
+        <p style={{ fontSize: '13px' }} className='font-bold text-center'>
+          {title}
+        </p>
       </div>
     </Link>
   )

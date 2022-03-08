@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import React from 'react'
 import Loader from '../../components/Loader'
-import { Market } from '../../interfaces/markets/market.interface'
+import { Market } from '../../lib/types/markets/market.interface'
 import { firestore } from '../../lib/firebase'
 
 import styles from '../../styles/store-details.module.scss'
@@ -15,8 +15,6 @@ function useMarket(marketID, startWith): Market {
   const router = useRouter()
 
   React.useEffect(() => {
-    let unsubscribe
-
     if (!marketID) {
       router.back()
     }
@@ -28,7 +26,7 @@ function useMarket(marketID, startWith): Market {
       }
     })
 
-    unsubscribe = ref.onSnapshot((doc) => {
+    const unsubscribe = ref.onSnapshot((doc) => {
       setMarket(doc.data() as Market)
     })
 

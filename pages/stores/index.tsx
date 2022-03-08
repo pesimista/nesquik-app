@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
-import { Market } from '../../interfaces/markets/market.interface'
+import { Market } from '../../lib/types/markets/market.interface'
 import { firestore } from '../../lib/firebase'
 import { defaultDesc, defaultImage } from '../../lib/helpers'
 
@@ -9,10 +9,8 @@ function useMarkets() {
   const [markets, setMarkets] = React.useState(null)
 
   React.useEffect(() => {
-    let unsubscribe
-
     const ref = firestore.collection('markets').orderBy('name')
-    unsubscribe = ref.onSnapshot((snapshot) => {
+    const unsubscribe = ref.onSnapshot((snapshot) => {
       const docs = snapshot.docs
 
       const formatedMarktes = []

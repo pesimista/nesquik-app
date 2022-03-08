@@ -24,7 +24,7 @@ export default function LoginPage({}) {
     router.push('/home')
   }
 
-  function handleSubmit(value: any) {
+  function handleSubmit(value: unknown) {
     updateUser(value).then(() => router.push('/home'))
   }
 
