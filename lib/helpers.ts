@@ -3,14 +3,4 @@ export const defaultImage =
 export const defaultDesc =
   'QUIK es el método de pago más simple y rápido; te da acceso a gran variedad de productos y comercios, y lo mejor de todo sin colas o líos para pagar.'
 
-const baseURLs = {
-  '/store/showcase/affiliates': '/stores',
-}
 
-export const parseURL = (url): string => {
-  if (baseURLs[url]) {
-    return baseURLs[url]
-  }
-
-  return url
-}

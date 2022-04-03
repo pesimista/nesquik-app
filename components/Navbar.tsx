@@ -26,7 +26,7 @@ export default function Navbar({
 
   return (
     <nav
-      className='relative flex justify-between items-center h-16 bg-gray-1000 p-5'
+      className='fixed w-full flex justify-between items-center h-16 bg-gray-1000 p-5'
       style={{ zIndex: '10000' }}
     >
       <div className='flex justify-between items-center w-full'>

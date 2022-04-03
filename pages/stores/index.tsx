@@ -1,46 +1,100 @@
+import { CloseOutlined } from '@ant-design/icons'
+import { Button, Col, Divider, Input, Row } from 'antd'
 import Head from 'next/head'
 import Link from 'next/link'
-import React from 'react'
-import { Market } from '../../lib/types/markets/market.interface'
+import React, { FormEvent } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import MarketItem from '../../components/Market/MarketItem'
 import { firestore } from '../../lib/firebase'
 import { defaultDesc, defaultImage } from '../../lib/helpers'
+import { normalize } from '../../lib/helpers/string'
+import { getCurrentUTC } from '../../lib/helpers/time'
+import { Market } from '../../lib/types/markets/market.interface'
+
+type SearchEvent = FormEvent<HTMLFormElement> | React.MouseEvent<HTMLElement>
+
+// import market from './store.json'
 
 function useMarkets() {
-  const [markets, setMarkets] = React.useState(null)
+  const [marketDocs, setMarketDocs] = React.useState<Market[]>(null)
+  const [markets, setMarkets] = React.useState<Market[]>(null)
+  const [filter, setFilter] = React.useState<string>('')
 
   React.useEffect(() => {
     const ref = firestore.collection('markets').orderBy('name')
     const unsubscribe = ref.onSnapshot((snapshot) => {
       const docs = snapshot.docs
 
-      const formatedMarktes = []
+      const formatedMarktes: Market[] = []
       for (const doc of docs) {
         const market = doc.data() as Market
         if (market.isHidden) continue
         formatedMarktes.push(market)
       }
-
-      setMarkets(formatedMarktes)
+      formatedMarktes.sort((a, b) => b.ranking - a.ranking)
+      formatedMarktes[0].schedule[0].finalTime = '2:00 PM'
+      setMarketDocs(formatedMarktes)
     })
 
     return unsubscribe
   }, [])
 
-  return markets
+  React.useEffect(() => {
+    if (!filter) {
+      setMarkets(marketDocs)
+      return
+    }
+
+    const normalizedFilter = normalize(filter)
+
+    const regex = new RegExp(`(${normalizedFilter})`, 'ig')
+
+    const filtered = marketDocs.filter((item) => {
+      const categories = item.categories.categoriesDescriptions
+        .map((cat) => cat.name)
+        .join(' ')
+
+      const criteria = normalize(item.name + ' ' + categories)
+
+      return regex.test(criteria)
+    })
+
+    setMarkets(filtered)
+  }, [filter, marketDocs])
+
+  return { markets, setFilter, filter }
 }
 
 export default function StoresShowcase() {
-  const markets = useMarkets()
+  const amount = 10
 
-  const marketItems = markets?.map((item) => {
+  const { markets, setFilter, filter } = useMarkets()
+  const [length, setLength] = React.useState(amount)
+  const today = React.useRef(getCurrentUTC())
+  const value = React.useRef<Input>(null)
+
+  const marketItems = markets?.slice(0, length).map((item) => {
     return (
-      <Link href={`/stores/${item.marketID}`} passHref key={item.marketID}>
-        <li>
-          {item.name} | {item.marketID}
-        </li>
-      </Link>
+      <div className='py-2' key={item.marketID}>
+        <Link href={`/stores/${item.marketID}`} passHref>
+          <a className='text-black hover:text-black'>
+            <MarketItem market={item} date={today.current} />
+          </a>
+        </Link>
+      </div>
     )
   })
+
+  const search = (e: SearchEvent) => {
+    e.preventDefault()
+    setFilter(value.current.state.value)
+    setLength(amount)
+  }
+
+  const clear = () => {
+    setFilter('')
+    setLength(amount)
+  }
 
   return (
     <>
@@ -61,9 +115,45 @@ export default function StoresShowcase() {
         <meta property='twitter:description' content={defaultDesc} />
         <meta property='twitter:image' content={defaultImage} />
       </Head>
-      <div>
-        <h2>Stores showcase</h2>
-        <ul>{marketItems}</ul>
+
+      <div className='p-4'>
+        <form onSubmit={search}>
+          <Row justify='center' className='pb-2'>
+            <Col span={18}>
+              <Input type='text' ref={value} allowClear />
+            </Col>
+            <Col span={6}>
+              <Button className='w-full' onClick={search}>
+                Search
+              </Button>
+            </Col>
+          </Row>
+        </form>
+
+        {Boolean(filter) && (
+          <div
+            onClick={clear}
+            className='h-5 inline-block bg-purple-1100 px-3 rounded-2xl text-white font-bold text-sm'
+          >
+            <span className='flex items-center'>
+              "{filter}"
+              <CloseOutlined className='pl-3' style={{ fontSize: '0.9rem' }} />
+            </span>
+          </div>
+        )}
+
+        {Boolean(markets) && (
+          <InfiniteScroll
+            dataLength={length}
+            next={() => setLength(length + amount)}
+            hasMore={markets.length > length}
+            loader={<h4>Loading...</h4>}
+            endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+            scrollableTarget='scrollableDiv'
+          >
+            {marketItems}
+          </InfiniteScroll>
+        )}
       </div>
     </>
   )

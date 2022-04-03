@@ -2,7 +2,7 @@ import { collection, FirestoreError } from 'firebase/firestore'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { Banner, HomeBanners } from '../types/banners/banner.type'
 import { firestore } from '../firebase'
-import { parseURL } from '../helpers'
+import { parseURL } from '../helpers/urls'
 
 type BannersHook = {
   value: HomeBanners

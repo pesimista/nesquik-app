@@ -54,7 +54,9 @@ export default function Shell({ children }) {
         showCart={Boolean(userDoc)}
         showBack={!showBackButton}
       />
-      {children}
+      <main className='pt-16'>
+        {children}
+      </main>
       <Drawer
         width={300}
         visible={drawerVisibility}
