@@ -85,7 +85,7 @@ export default function StoresShowcase() {
     e.preventDefault()
     setFilter(value.current.state.value)
     setLength(amount)
-    value.current.setState(value => ({ ...value, value: '' }))
+    value.current.setState((value) => ({ ...value, value: '' }))
   }
 
   const searchByCategory = (category: Category) => {
@@ -95,7 +95,7 @@ export default function StoresShowcase() {
 
   const clear = () => {
     setFilter('')
-    value.current.setState(value => ({ ...value, value: '' }))
+    value.current.setState((value) => ({ ...value, value: '' }))
     setLength(amount)
   }
 
@@ -182,7 +182,10 @@ export default function StoresShowcase() {
             >
               <span className='flex items-center'>
                 "{filter}"
-                <CloseOutlined className='pl-3' style={{ fontSize: '0.9rem' }} />
+                <CloseOutlined
+                  className='pl-3'
+                  style={{ fontSize: '0.9rem' }}
+                />
               </span>
             </div>
           )}
@@ -194,7 +197,10 @@ export default function StoresShowcase() {
             >
               <span className='flex items-center'>
                 "{category.name}"
-                <CloseOutlined className='pl-3' style={{ fontSize: '0.9rem' }} />
+                <CloseOutlined
+                  className='pl-3'
+                  style={{ fontSize: '0.9rem' }}
+                />
               </span>
             </div>
           )}

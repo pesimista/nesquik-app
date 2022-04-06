@@ -4,8 +4,11 @@ type MarketItemProps = {
   onClick: () => void
 }
 
-export default function CategoryItem({ image, label, onClick }: MarketItemProps) {
-
+export default function CategoryItem({
+  image,
+  label,
+  onClick,
+}: MarketItemProps) {
   return (
     <div className='w-16 flex flex-col items-center mx-1' onClick={onClick}>
       <div

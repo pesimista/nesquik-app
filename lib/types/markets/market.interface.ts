@@ -1,4 +1,4 @@
-import { Category } from "./categories.type"
+import { Category } from './categories.type'
 
 export interface NewProperties {
   maxDeliveryRange: number
