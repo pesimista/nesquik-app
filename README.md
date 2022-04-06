@@ -80,7 +80,7 @@ project/
   - [ ] Complete all redirects
 - [ ] Add the store showcase page
   - [x] Add the stores listing
-  - [ ] Add the categories listing and allow filtering by it
+  - [x] Add the categories listing and allow filtering by it
 - [ ] Add the product showcase page (this time as a separated component, I'm looking at you GOOku)
 - [ ] Rethink ~~my career choice~~ how to show sub products
 - [ ] Add the cart and it's functionality across screens

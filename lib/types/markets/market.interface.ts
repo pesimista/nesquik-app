@@ -1,3 +1,5 @@
+import { Category } from "./categories.type"
+
 export interface NewProperties {
   maxDeliveryRange: number
   bikeDistance: string
@@ -21,17 +23,9 @@ export interface PaymentDetails {
   level: number
 }
 
-export interface CategoriesDescription {
-  categoryID: string
-  parent: string
-  image?: any
-  name: string
-  affiliateID: string
-}
-
 export interface Categories {
   ids: string[]
-  categoriesDescriptions: CategoriesDescription[]
+  categoriesDescriptions: Category[]
 }
 
 export interface Job {

@@ -1,46 +1,33 @@
 import { CloseOutlined } from '@ant-design/icons'
 import { Button, Col, Divider, Input, Row } from 'antd'
+import { collection, orderBy, query, where } from 'firebase/firestore'
 import Head from 'next/head'
 import Link from 'next/link'
 import React, { FormEvent } from 'react'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import CategoryItem from '../../components/Market/CategoryItems'
 import MarketItem from '../../components/Market/MarketItem'
 import { firestore } from '../../lib/firebase'
 import { defaultDesc, defaultImage } from '../../lib/helpers'
 import { normalize } from '../../lib/helpers/string'
 import { getCurrentUTC } from '../../lib/helpers/time'
+import useMarkets from '../../lib/hooks/useMarkets'
+import { Category } from '../../lib/types/markets/categories.type'
 import { Market } from '../../lib/types/markets/market.interface'
 
 type SearchEvent = FormEvent<HTMLFormElement> | React.MouseEvent<HTMLElement>
 
 // import market from './store.json'
 
-function useMarkets() {
-  const [marketDocs, setMarketDocs] = React.useState<Market[]>(null)
+function useFilteredMarkets() {
+  const marketDocs = useMarkets()
   const [markets, setMarkets] = React.useState<Market[]>(null)
   const [filter, setFilter] = React.useState<string>('')
+  const [category, setCategory] = React.useState<Partial<Category>>(null)
 
   React.useEffect(() => {
-    const ref = firestore.collection('markets').orderBy('name')
-    const unsubscribe = ref.onSnapshot((snapshot) => {
-      const docs = snapshot.docs
-
-      const formatedMarktes: Market[] = []
-      for (const doc of docs) {
-        const market = doc.data() as Market
-        if (market.isHidden) continue
-        formatedMarktes.push(market)
-      }
-      formatedMarktes.sort((a, b) => b.ranking - a.ranking)
-      formatedMarktes[0].schedule[0].finalTime = '2:00 PM'
-      setMarketDocs(formatedMarktes)
-    })
-
-    return unsubscribe
-  }, [])
-
-  React.useEffect(() => {
-    if (!filter) {
+    if (!filter && !category) {
       setMarkets(marketDocs)
       return
     }
@@ -56,22 +43,66 @@ function useMarkets() {
 
       const criteria = normalize(item.name + ' ' + categories)
 
-      return regex.test(criteria)
+      if (filter && !regex.test(criteria)) {
+        return false
+      }
+
+      if (category) {
+        const hasCategory = item.categories.categoriesDescriptions.some(
+          (cat) => cat.categoryID === category.categoryID
+        )
+
+        return hasCategory
+      }
+
+      return true
     })
 
     setMarkets(filtered)
-  }, [filter, marketDocs])
+  }, [category, filter, marketDocs])
 
-  return { markets, setFilter, filter }
+  return { markets, setFilter, filter, category, setCategory }
 }
 
 export default function StoresShowcase() {
   const amount = 10
 
-  const { markets, setFilter, filter } = useMarkets()
+  const { markets, filter, category, setFilter, setCategory } =
+    useFilteredMarkets()
+  const [categories, loadingCategories] = useCollectionData(
+    query(
+      collection(firestore, 'categories'),
+      where('parent', '==', 'R6JtZlEk1IwViiOvRbKM'),
+      orderBy('order')
+    )
+  )
+
   const [length, setLength] = React.useState(amount)
   const today = React.useRef(getCurrentUTC())
   const value = React.useRef<Input>(null)
+
+  const search = (e: SearchEvent) => {
+    e.preventDefault()
+    setFilter(value.current.state.value)
+    setLength(amount)
+    value.current.setState(value => ({ ...value, value: '' }))
+  }
+
+  const searchByCategory = (category: Category) => {
+    setCategory({ categoryID: category.categoryID, name: category.name })
+    setLength(amount)
+  }
+
+  const clear = () => {
+    setFilter('')
+    value.current.setState(value => ({ ...value, value: '' }))
+    setLength(amount)
+  }
+
+  const clearCategory = () => {
+    setCategory(null)
+    setLength(amount)
+  }
 
   const marketItems = markets?.slice(0, length).map((item) => {
     return (
@@ -85,16 +116,23 @@ export default function StoresShowcase() {
     )
   })
 
-  const search = (e: SearchEvent) => {
-    e.preventDefault()
-    setFilter(value.current.state.value)
-    setLength(amount)
-  }
+  const categoryItems = categories?.reduce(
+    (col: JSX.Element[], item: Category) => {
+      if (category?.categoryID !== item.categoryID) {
+        col.push(
+          <CategoryItem
+            key={item.categoryID}
+            onClick={() => searchByCategory(item)}
+            label={item.name}
+            image={item.image}
+          />
+        )
+      }
 
-  const clear = () => {
-    setFilter('')
-    setLength(amount)
-  }
+      return col
+    },
+    []
+  )
 
   return (
     <>
@@ -118,7 +156,7 @@ export default function StoresShowcase() {
 
       <div className='p-4'>
         <form onSubmit={search}>
-          <Row justify='center' className='pb-2'>
+          <Row justify='center'>
             <Col span={18}>
               <Input type='text' ref={value} allowClear />
             </Col>
@@ -130,17 +168,37 @@ export default function StoresShowcase() {
           </Row>
         </form>
 
-        {Boolean(filter) && (
-          <div
-            onClick={clear}
-            className='h-5 inline-block bg-purple-1100 px-3 rounded-2xl text-white font-bold text-sm'
-          >
-            <span className='flex items-center'>
-              "{filter}"
-              <CloseOutlined className='pl-3' style={{ fontSize: '0.9rem' }} />
-            </span>
+        {!loadingCategories && (
+          <div className='w-full overflow-y-scroll py-2 my-2'>
+            <div className='flex'>{categoryItems}</div>
           </div>
         )}
+
+        <div className='flex'>
+          {Boolean(filter) && (
+            <div
+              onClick={clear}
+              className='h-5 inline-block bg-purple-1100 px-3 mx-1 rounded-2xl text-white font-bold text-sm'
+            >
+              <span className='flex items-center'>
+                "{filter}"
+                <CloseOutlined className='pl-3' style={{ fontSize: '0.9rem' }} />
+              </span>
+            </div>
+          )}
+
+          {Boolean(category) && (
+            <div
+              onClick={clearCategory}
+              className='h-5 inline-block bg-purple-1100 px-3 mx-1 rounded-2xl text-white font-bold text-sm'
+            >
+              <span className='flex items-center'>
+                "{category.name}"
+                <CloseOutlined className='pl-3' style={{ fontSize: '0.9rem' }} />
+              </span>
+            </div>
+          )}
+        </div>
 
         {Boolean(markets) && (
           <InfiniteScroll
