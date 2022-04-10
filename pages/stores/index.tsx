@@ -7,12 +7,13 @@ import React, { FormEvent } from 'react'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import CategoryItem from '../../components/Market/CategoryItems'
-import MarketItem from '../../components/Market/MarketItem'
+import MarketItemList from '../../components/Market/MarketItemList'
+import { Tag } from '../../components/Market/Tags'
 import { firestore } from '../../lib/firebase'
 import { defaultDesc, defaultImage } from '../../lib/helpers'
 import { normalize } from '../../lib/helpers/string'
 import { getCurrentUTC } from '../../lib/helpers/time'
-import useMarkets from '../../lib/hooks/useMarkets'
+import { useMarkets } from '../../lib/hooks/useMarkets'
 import { Category } from '../../lib/types/markets/categories.type'
 import { Market } from '../../lib/types/markets/market.interface'
 
@@ -109,7 +110,7 @@ export default function StoresShowcase() {
       <div className='py-2' key={item.marketID}>
         <Link href={`/stores/${item.marketID}`} passHref>
           <a className='text-black hover:text-black'>
-            <MarketItem market={item} date={today.current} />
+            <MarketItemList market={item} date={today.current} />
           </a>
         </Link>
       </div>
@@ -176,33 +177,27 @@ export default function StoresShowcase() {
 
         <div className='flex'>
           {Boolean(filter) && (
-            <div
-              onClick={clear}
-              className='h-5 inline-block bg-purple-1100 px-3 mx-1 rounded-2xl text-white font-bold text-sm'
-            >
-              <span className='flex items-center'>
+            <Tag onClick={clear} height='h-5' className='mx-1'>
+              <span className='flex items-center h-full text-sm'>
                 "{filter}"
                 <CloseOutlined
                   className='pl-3'
                   style={{ fontSize: '0.9rem' }}
                 />
               </span>
-            </div>
+            </Tag>
           )}
 
           {Boolean(category) && (
-            <div
-              onClick={clearCategory}
-              className='h-5 inline-block bg-purple-1100 px-3 mx-1 rounded-2xl text-white font-bold text-sm'
-            >
-              <span className='flex items-center'>
+            <Tag onClick={clearCategory} height='h-5' className='mx-1'>
+              <span className='flex items-center h-full text-sm'>
                 "{category.name}"
                 <CloseOutlined
                   className='pl-3'
                   style={{ fontSize: '0.9rem' }}
                 />
               </span>
-            </div>
+            </Tag>
           )}
         </div>
 

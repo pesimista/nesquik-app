@@ -11,6 +11,7 @@ import Loader from '../components/Loader'
 import { useRequiredUser } from '../lib/context'
 import { defaultDesc, defaultImage } from '../lib/helpers'
 import { useBanners } from '../lib/hooks/useBanners'
+import BannerItem from '../components/Home/BannerItem'
 
 export default function HomePage() {
   const { userDoc: user } = useRequiredUser()
@@ -125,14 +126,12 @@ export default function HomePage() {
         <Carousel autoplay dots={false} autoplaySpeed={5000} className='mt-1'>
           {banners.promo.map((banner) => {
             return (
-              <div key={banner.bannerID} className='w-full relative h-24'>
-                <Image
-                  src={banner.image}
-                  alt={banner.name}
-                  layout='fill'
-                  objectFit='cover'
-                />
-              </div>
+              <BannerItem
+                key={banner.bannerID}
+                className='h-24'
+                image={banner.image}
+                alt={banner.name}
+              />
             )
           })}
         </Carousel>

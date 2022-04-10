@@ -1,19 +1,5 @@
-import { Category } from './categories.type'
-
-export interface NewProperties {
-  maxDeliveryRange: number
-  bikeDistance: string
-}
-
-export interface LastUpdated {
-  seconds: number
-  nanoseconds: number
-}
-
-export interface Payments {
-  lastUpdated: LastUpdated
-  count: number
-}
+import { Banner } from '../banners/banner.type'
+import { Category, CategoryObject } from './categories.type'
 
 export interface PaymentDetails {
   ubication: string
@@ -21,11 +7,6 @@ export interface PaymentDetails {
   paymentType: string
   accountManager: string
   level: number
-}
-
-export interface Categories {
-  ids: string[]
-  categoriesDescriptions: Category[]
 }
 
 export interface Job {
@@ -41,7 +22,7 @@ export interface Job {
 export interface Contact {
   instagram: string
   phoneNumber: string
-  emails: any[]
+  emails: string[]
   whatsapp: string
   twitter: string
 }
@@ -151,14 +132,6 @@ export interface ReducedDelivery {
   isActive: boolean
 }
 
-export interface Banner {
-  isHidden: boolean
-  dateIn?: any
-  schedule: string[]
-  dateOut?: any
-  disabled: boolean
-}
-
 export interface MarketImages {
   profile: string
   header: string
@@ -171,16 +144,6 @@ export interface MarketImages {
 export interface Geolocation {
   _lat: number
   _long: number
-}
-
-export interface LastUpdated2 {
-  seconds: number
-  nanoseconds: number
-}
-
-export interface Troubles {
-  lastUpdated: LastUpdated2
-  count: number
 }
 
 export interface Coordinates {
@@ -228,40 +191,14 @@ export interface PaymentType2 {
   sellFee: number
 }
 
-export interface CashOutPaymentMethod {
-  ownerName: string
-  ownerIdentification: string
-  paymentMethod: string
-  ownerEmail: string
-  paymentType: PaymentType2
-  paymentMethodID: string
-  phoneNumber: string
-  ownerAccountNumber: string
-}
-
 export interface Affiliate {
   rif: string
   affiliateID: string
   name: string
 }
 
-export interface DeliveryRule2 {
-  motoPrice: number
-  isFreeDelivery: boolean
-  carPrice: number
-  affiliateSubsidy: number
-  quikSubsidy: number
-  bikePrice: number
-  pointsToFreeDelivery: number
-  to: number
-  isActive: boolean
-  from: number
-}
-
 export interface Market {
-  newProperties: NewProperties
   pointsToFreeDelivery: number
-  payments: Payments
   phoneNumber: string
   hasCompletedProfile: boolean
   sectorIndex: number
@@ -269,7 +206,6 @@ export interface Market {
   hasPromo: number
   affiliateCategory: string
   rif: string
-  franchise?: any
   paymentDetails: PaymentDetails
   cashBackPercentage: number
   status: string
@@ -280,7 +216,7 @@ export interface Market {
   email: string
   allowFree: boolean
   acceptsCreditCard: boolean
-  categories: Categories
+  categories: CategoryObject<Category>
   jobs: Job[]
   contact: Contact
   ubication: string
@@ -290,7 +226,7 @@ export interface Market {
   startWeek: StartWeek
   productsWithFreeDelivery: number
   rating: number
-  isPremium?: any
+  isPremium?: boolean
   name: string
   payment: Payment
   schedule: Schedule[]
@@ -298,7 +234,7 @@ export interface Market {
   estimatedTime: number
   reducedDelivery: ReducedDelivery
   stockLabel: number
-  banner: Banner
+  // banner: Banner
   hasFreeDelivery: boolean
   initialDeliveryTime: string
   ownershipStatus: string
@@ -310,27 +246,24 @@ export interface Market {
   onlyAllowMoto: boolean
   isSocialMediaLinked: boolean
   accountManager: string
-  isHidden?: any
+  isHidden?: boolean
   geolocation: Geolocation
-  branchName?: any
-  products: any[]
+  branchName?: string
+  products: string[]
   productsWithLongDelivery: number
   scanCommission: number
   address: string
   outOfStock: number
-  troubles: Troubles
   coordinates: Coordinates
   paymentType: string
   referral: string[]
   deliveryRules: DeliveryRule[]
   maxDeliveryRange: number
-  cashOutPaymentMethods: CashOutPaymentMethod[]
   isOnlyQuik: boolean
   deliveryFactor: number
   radiusDistance: number
   affiliate: Affiliate
   paysFee: boolean
-  deliveryRule: DeliveryRule2[]
   logo: string
-  marketing: any[]
+  marketing: Banner[]
 }

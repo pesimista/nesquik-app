@@ -78,7 +78,7 @@ project/
 - [ ] Add the home screen
   - [x] Complete draft
   - [ ] Complete all redirects
-- [ ] Add the store showcase page
+- [x] Add the store showcase page
   - [x] Add the stores listing
   - [x] Add the categories listing and allow filtering by it
 - [ ] Add the product showcase page (this time as a separated component, I'm looking at you GOOku)
