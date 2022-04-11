@@ -7,14 +7,16 @@ import { Tag } from '../Market/Tags'
 type ProductItemProps = {
   product: Product
   className?: string
+  onClick?: VoidFunction
 }
 
 export default function ProductItem({
   product,
   className = '',
+  onClick = null,
 }: ProductItemProps) {
   return (
-    <div className={`flex ${className}`}>
+    <div className={`flex ${className}`} onClick={onClick}>
       <div>
         <div className='h-36 w-36 inline-block'>
           <Image

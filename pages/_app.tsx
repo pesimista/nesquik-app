@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css'
 import Shell from '../components/shell'
 import { UserProvider } from '../components/UserProvider'
-import '../styles/globals.css'
+import '../styles/globals.scss'
 
 function App({ Component, pageProps }) {
   return (

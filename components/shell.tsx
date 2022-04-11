@@ -1,9 +1,10 @@
-import { Button, Drawer } from 'antd'
+import { Button, Drawer, Modal } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { logout } from '../lib/auth'
 import { useUser } from '../lib/context'
 import Navbar from './Navbar'
+import ProductDialog from './Product/ProductDialog'
 
 const URLS = ['/', '/home', '/login']
 
@@ -19,14 +20,34 @@ export default function Shell({ children }) {
   const { userDoc } = useUser()
   const router = useRouter()
   const [drawerVisibility, setVisibility] = React.useState(false)
-  const [showBackButton, setIsHome] = React.useState(() =>
-    isHome(router.pathname)
-  )
+  const [showBack, setShowBack] = React.useState(() => isHome(router.pathname))
+
+  const productID = router.query.productID as string
+
   const toggleDrawer = () => setVisibility(!drawerVisibility)
+
+  const cleanProduct = () => {
+    const query = { ...router.query }
+    delete query.productID
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      null,
+      { scroll: false }
+    )
+  }
+
+  const logoff = () => {
+    logout()
+    setVisibility(false)
+    router.push('/')
+  }
 
   React.useEffect(() => {
     const handler = (url) => {
-      setIsHome(isHome(url))
+      setShowBack(isHome(url))
 
       setVisibility(false)
     }
@@ -39,12 +60,6 @@ export default function Shell({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function logoff() {
-    logout()
-    setVisibility(false)
-    router.push('/')
-  }
-
   return (
     <React.Fragment>
       <Navbar
@@ -52,7 +67,7 @@ export default function Shell({ children }) {
         showMenu={Boolean(userDoc)}
         onMenuClick={toggleDrawer}
         showCart={Boolean(userDoc)}
-        showBack={!showBackButton}
+        showBack={!showBack}
       />
       <main className='pt-16'>{children}</main>
       <Drawer
@@ -65,6 +80,16 @@ export default function Shell({ children }) {
           <Button onClick={logoff}>logout</Button>
         </div>
       </Drawer>
+      <Modal
+        visible={Boolean(productID)}
+        className='cart'
+        footer={null}
+        bodyStyle={{ padding: '0px' }}
+        closable={false}
+        destroyOnClose={true}
+      >
+        <ProductDialog productID={productID} close={cleanProduct} />
+      </Modal>
     </React.Fragment>
   )
 }

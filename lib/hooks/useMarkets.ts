@@ -4,22 +4,6 @@ import { firestore } from '../firebase'
 import { normalize } from '../helpers/string'
 import { MarketCategory } from '../types/markets/categories.type'
 import { Market } from '../types/markets/market.interface'
-import { Product } from '../types/products/product.interface'
-
-const defaultMarketCategories: Product['marketCategories'] = {
-  ids: ['somebaseid'],
-  categoriesDescriptions: [
-    {
-      marketID: '',
-      order: -1,
-      name: 'Otros',
-      categoryID: '',
-      image: '',
-      schedule: [],
-      affiliateID: '',
-    },
-  ],
-}
 
 export function useMarkets() {
   const [marketDocs, setMarketDocs] = React.useState<Market[]>(null)
@@ -71,40 +55,6 @@ export function useSingleMarket(marketID, startWith): Market {
   }, [marketID, router])
 
   return market
-}
-
-export function useMarketProducts(marketID: string): Product[] {
-  const [products, setProducts] = React.useState<Product[]>([])
-  React.useEffect(() => {
-    if (!marketID) {
-      return
-    }
-
-    const ref = firestore
-      .collection('products')
-      .where('marketID', 'array-contains', marketID)
-
-    ref.get().then((collection) => {
-      const res = collection.docs.reduce((col, item) => {
-        const data = item.data() as Product
-        if (data.isAvailable === false) {
-          return col
-        }
-
-        data.marketCategories = Boolean(
-          data.marketCategories?.categoriesDescriptions?.length
-        )
-          ? data.marketCategories
-          : defaultMarketCategories
-        return [...col, data]
-      }, [])
-
-      res.sort((a, b) => b.priority - a.priority)
-      setProducts(res)
-    })
-  }, [marketID])
-
-  return products
 }
 
 export default function useMarketCategories(

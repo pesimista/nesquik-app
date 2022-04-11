@@ -1,7 +1,10 @@
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { firestore } from '../../lib/firebase'
+import { Market } from '../../lib/types/markets/market.interface'
 import { CloseOutlined } from '@ant-design/icons'
 import { Button, Carousel, Col, Divider, Input, Row } from 'antd'
-import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FormEvent } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -11,15 +14,13 @@ import CategoryItem from '../../components/Market/CategoryItems'
 import MarketProfile from '../../components/Market/MarketProfile'
 import { Tag } from '../../components/Market/Tags'
 import ProductItem from '../../components/Product/ProductItem'
-import { firestore } from '../../lib/firebase'
 import { defaultDesc, defaultImage } from '../../lib/helpers'
 import useMarketCategories, {
   useFilterByCategory,
-  useMarketProducts,
   useSingleMarket,
 } from '../../lib/hooks/useMarkets'
+import { useMarketProducts } from '../../lib/hooks/useProduct'
 import { MarketCategory } from '../../lib/types/markets/categories.type'
-import { Market } from '../../lib/types/markets/market.interface'
 import { Product } from '../../lib/types/products/product.interface'
 
 type SearchEvent = FormEvent<HTMLFormElement> | React.MouseEvent<HTMLElement>
@@ -159,10 +160,21 @@ export default function StoreDetails(props) {
 
     return (
       <div className='mb-4' key={item.productID}>
-        <ProductItem
-          className='shadow shadow-slate-500 border border-solid h-36'
-          product={item}
-        />
+        <Link
+          href={{
+            pathname: router.pathname,
+            query: { ...router.query, productID: item.productID },
+          }}
+          prefetch={false}
+          shallow
+        >
+          <a className='text-black hover:text-black'>
+            <ProductItem
+              className='shadow shadow-slate-500 border border-solid h-36'
+              product={item}
+            />
+          </a>
+        </Link>
       </div>
     )
   })
