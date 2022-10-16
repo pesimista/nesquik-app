@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { WithChildren } from '../../lib/types/withChildren.type'
 
 export function QuikTag() {
   return (
@@ -16,15 +17,14 @@ export function QuikTag() {
   )
 }
 
-type TagProps = {
+type TagProps = WithChildren<{
   label?: string
   color?: string
   textColor?: string
   height?: string
   className?: string
-  children?: JSX.Element[] | JSX.Element
   onClick?: VoidFunction
-}
+}>
 
 export function Tag({
   label,

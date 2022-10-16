@@ -1,15 +1,15 @@
 import Image from 'next/image'
 import { defaultImage } from '../../lib/helpers'
 import { Market } from '../../lib/types/markets/market.interface'
+import { WithChildren } from '../../lib/types/withChildren.type'
 
-type MarketItemProps = {
+type MarketItemProps = WithChildren<{
   market: Market
   bgImage: string
   className?: string
   isOpen?: boolean
   bgClassName?: string
-  children?: JSX.Element[] | JSX.Element
-}
+}>
 
 export default function MarketItem({
   market,
@@ -17,7 +17,7 @@ export default function MarketItem({
   isOpen = true,
   bgClassName = 'h-24',
   bgImage,
-  children = [],
+  children = null,
 }: MarketItemProps) {
   return (
     <div className={`flex flex-col relative ${className}`}>

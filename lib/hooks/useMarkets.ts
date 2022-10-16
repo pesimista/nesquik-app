@@ -39,7 +39,7 @@ export function useSingleMarket(marketID, startWith): Market {
     if (!marketID) {
       router.back()
     }
-
+    console.log(firestore)
     const ref = firestore.collection('markets').doc(marketID)
     ref.get().then((doc) => {
       if (!doc.exists) {

@@ -4,8 +4,9 @@ import { UserContext } from '../lib/context'
 import { auth, firestore } from '../lib/firebase'
 import Loader from './Loader'
 import { Auth } from 'firebase/auth'
+import { WithChildren } from '../lib/types/withChildren.type'
 
-export function UserProvider({ children }) {
+export function UserProvider({ children }: WithChildren) {
   const [user, loadingUser] = useAuthState(auth as unknown as Auth)
   const [userDoc, setDoc] = React.useState(null)
 

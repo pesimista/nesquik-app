@@ -1,10 +1,8 @@
 import { LoadingOutlined } from '@ant-design/icons'
-import React, { ReactNode } from 'react'
+import React from 'react'
+import { WithChildren } from '../lib/types/withChildren.type'
 
-interface LoaderProps {
-  loading: boolean
-  children?: ReactNode
-}
+type LoaderProps = WithChildren<{ loading: boolean }>
 
 export default function Loader({ loading, children = [] }: LoaderProps) {
   if (!loading) {

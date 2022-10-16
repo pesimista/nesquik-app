@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { logout } from '../lib/auth'
 import { useUser } from '../lib/context'
+import { WithChildren } from '../lib/types/withChildren.type'
 import Navbar from './Navbar'
 import ProductDialog from './Product/ProductDialog'
 
@@ -16,7 +17,7 @@ function isHome(url): boolean {
   }
 }
 
-export default function Shell({ children }) {
+export default function Shell({ children }: WithChildren) {
   const { userDoc } = useUser()
   const router = useRouter()
   const [drawerVisibility, setVisibility] = React.useState(false)
