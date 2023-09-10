@@ -11,11 +11,11 @@ export async function logout(session: Session | null) {
     return
   }
 
-  const url = new URL('https://dev-z6xssiyjtmvmsljq.us.auth0.com/oidc/logout')
+  const url = new URL(`${process.env.NEXT_PUBLIC_AUTH0_BASE_URL}/oidc/logout`)
   url.searchParams.append('id_token_hint', session.idToken)
   url.searchParams.append(
     'post_logout_redirect_uri',
-    'http://192.168.1.3:3000/logout'
+    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/logout`
   )
 
   window.location.assign(url.toString())
