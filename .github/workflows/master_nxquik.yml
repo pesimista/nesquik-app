@@ -62,4 +62,4 @@ jobs:
           app-name: 'nxquik'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_85DE48302BF445D7BD0360B6FB5E8A06 }}
-          package: .
+          package: ./.next/standalone
