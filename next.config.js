@@ -6,6 +6,8 @@ const nextConfig = {
     localeDetection: false,
   },
   reactStrictMode: true,
+
+  output: 'standalone',
 }
 
 module.exports = nextConfig

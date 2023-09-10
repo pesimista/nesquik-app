@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '18.x'
 
@@ -25,15 +25,17 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
+          cp public .next/standalone/public
+          cp .next/static .next/standalone/.next/static
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip * .env .next
+        run: zip -r next.zip .next/standalone
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: node-app
-          path: release.zip
+          name: nxquik-app
+          path: next.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,14 +46,14 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
-          name: node-app
+          name: nxquik-app
       
       - name: unzip artifact for deployment
         run: |
-          unzip release.zip
-          rm release.zip
+          unzip next.zip
+          rm next.zip
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
