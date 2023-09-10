@@ -1,0 +1,11 @@
+{
+  "home": {
+    "hello": "Hola",
+    "pay": "Paga",
+    "send": "Envía",
+    "card": "",
+    "refill": "Recarga",
+    "orders": "Ordenes"
+  },
+  "test": "miguel es marico"
+}

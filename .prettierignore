@@ -36,3 +36,5 @@ yarn-error.log*
 
 /.vscode
 package-lock.json
+
+/src/pages/api/auth/[...nextauth].ts

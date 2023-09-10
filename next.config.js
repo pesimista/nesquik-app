@@ -1,15 +1,11 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    localeDetection: false,
+  },
   reactStrictMode: true,
-  env: {
-    apiKey: process.env.apiKey,
-    authDomain: process.env.authDomain,
-    databaseURL: process.env.databaseURL,
-    projectId: process.env.projectId,
-    storageBucket: process.env.storageBucket,
-    messagingSenderId: process.env.messagingSenderId,
-    appId: process.env.appId,
-  },
-  images: {
-    domains: ['firebasestorage.googleapis.com'],
-  },
 }
+
+module.exports = nextConfig
