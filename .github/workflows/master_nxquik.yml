@@ -29,7 +29,7 @@ jobs:
           mv .next/static .next/standalone/.next/static
 
       - name: Zip artifact for deployment
-        run: zip -r next.zip .next/standalone/*
+        run: zip -r next.zip .next/standalone/* .next/standalone/.next
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
