@@ -29,10 +29,10 @@ jobs:
           mv .next/static .next/standalone/.next/static
 
       - name: Zip artifact for deployment
-        run: zip -r next.zip .next/standalone
+        run: zip -r next.zip .next/standalone/*
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: nxquik-app
           path: next.zip
