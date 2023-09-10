@@ -25,8 +25,8 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
-          cp public .next/standalone/public
-          cp .next/static .next/standalone/.next/static
+          mv public .next/standalone/public
+          mv .next/static .next/standalone/.next/static
 
       - name: Zip artifact for deployment
         run: zip -r next.zip .next/standalone
