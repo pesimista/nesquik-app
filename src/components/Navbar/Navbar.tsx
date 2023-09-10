@@ -6,12 +6,10 @@ import { useMemo } from 'react'
 import { Button } from '~/components/ui/button'
 
 export default function Navbar({
-  showMenu = false,
   onMenuClick,
-  visibility = false,
   showBack = false,
 }: Record<string, any>) {
-  const { data, status } = useSession()
+  const { status } = useSession()
 
   const router = useRouter()
 
@@ -29,7 +27,7 @@ export default function Navbar({
     }
 
     return <Button onClick={() => signIn('auth0')}>Login</Button>
-  }, [status, data])
+  }, [status])
 
   return (
     <nav

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { cn } from '~/lib/utils'
 
 type BannetItemProps = {
   key: string | number
@@ -14,7 +15,7 @@ export default function BannerItem({
   alt,
 }: BannetItemProps) {
   return (
-    <div key={key} cn={`w-full relative ${className}`}>
+    <div key={key} className={cn(className, `w-full relative`)}>
       <Image
         className='rounded-lg'
         src={image}
