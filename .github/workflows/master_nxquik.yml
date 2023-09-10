@@ -25,6 +25,8 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
+          mv ./build/static ./build/standalone/build
+          mv ./public ./build/standalone
       # yarn test --if-present
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
