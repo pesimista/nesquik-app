@@ -23,6 +23,7 @@ jobs:
 
       - name: yarn install, build, and test
         run: |
+          echo ${{ secrets }}
           yarn install --frozen-lockfile
           yarn build
           mv public .next/standalone/public
